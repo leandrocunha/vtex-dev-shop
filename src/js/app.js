@@ -1,4 +1,4 @@
-LazyLoad.css([`${vTex.baseURL}assets/vendors/bootstrap/bootstrap.css`]);
+LazyLoad.css([]);
 
 LazyLoad.js([`${vTex.baseURL}assets/js/vendors.js`], () => {
 

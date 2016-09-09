@@ -1,12 +1,8 @@
 import React from 'react';
 import {Link, navigate} from 'react-page';
+import Search from './Search'
 
 export default class Checkout extends React.Component {
-
-  _click(e) {
-  	e.preventDefault();
-    console.log('clicked!');
-  }
 
   render() {
 
@@ -17,18 +13,7 @@ export default class Checkout extends React.Component {
         <h1>Dev Shop</h1>
       </div>
 
-      <div className="row">
-        <h2>Add a developer</h2>
-        <form className="form-inline" role="form">
-          <div className="form-group">
-            <input type="text" placeholder="GitHub Username" className="form-control" />
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Price" className="form-control" />
-          </div>
-          <button type="submit" className="btn btn-success">Add</button>
-        </form>
-      </div>
+      <Search />
 
       <div className="cart row">
         <h2>Cart</h2>
