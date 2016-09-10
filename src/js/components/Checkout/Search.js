@@ -1,5 +1,7 @@
-import React from 'react'
-import {SimpleSelect} from 'react-selectize'
+import React, {findDOMNode} from 'react'
+import Numeral from 'numeral'
+import {assign} from 'lodash'
+import Selectize from './../Selectize'
 import {actions, store} from './../../flux'
 
 export default class Search extends React.Component {
@@ -25,14 +27,27 @@ export default class Search extends React.Component {
     }
   }
 
-  _getUser(e) {
-    actions.github.users.get({user: e.value})
+  _getUser(username) {
+    actions.github.users.get({user: username})
      .then(() => {
         let user = store.github.users.get();
         let price = ((Number(user.followers) * 2) + (Number(user.public_repos) * 1)) / 2;
-        
-        this.setState({price: price});
+
+        this.setState({
+            price: price,
+            user: user
+          });
+
+        findDOMNode(this.refs.price).value = Numeral(price).format('$ 0,0.00');
       });
+  }
+
+  _submit(e) {
+    e.preventDefault();
+
+    let hours = findDOMNode(this.refs.hours);
+
+    actions.vtex.cart.addItem(assign(this.state, {hours: hours.value}));
   }
 
   render() {
@@ -43,28 +58,41 @@ export default class Search extends React.Component {
     return (
       <div className="row">
         <h2>Add a developer</h2>
-        <form className="form-inline" role="form">
-          <div className="form-group">
-            <SimpleSelect className="text"
-                          placeholder="GitHub Username"
-                          theme="bootstrap3"
-                          onValueChange={this._getUser.bind(this)}>
-              {
-                users &&
-                  users.map(({login}, index) =>
+        <form className="form-inline" role="form"
+              onSubmit={this._submit.bind(this)}>
+          {
+            <div className="form-group">
+              <Selectize className="demo-default"
+                         items={users.map((user, i) => user)}
+                         placeholder="GitHub Username"
+                         onChange={this._getUser.bind(this)}>
+                {
+                  users.map(({avatar_url, login}, index) =>
                     <option key={index}
-                            value={login}>{login}</option>
+                            data-avatar={avatar_url}
+                            value={login}>
+                      {login}
+                    </option>
                   )
-              }
-            </SimpleSelect>
+                }
+              </Selectize>
+            </div>
+          }
+          <div className="form-group">
+            <input className="form-control"
+                   disabled="disabled"
+                   type="text"
+                   placeholder="Price"
+                   ref="price" />
           </div>
           <div className="form-group">
             <input className="form-control"
-                   type="text"
-                   placeholder="Price"
-                   value={price} />
+                   type="number"
+                   placeholder="Hours"
+                   ref="hours"
+                   defaultValue="1" />
           </div>
-          <button type="submit" className="btn btn-success">Add</button>
+          <button type="submit" className="btn btn-success">Add to cart</button>
         </form>
       </div>
     );

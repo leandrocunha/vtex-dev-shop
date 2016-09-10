@@ -1,4 +1,4 @@
-LazyLoad.css([]);
+LazyLoad.css([`${vTex.baseURL}node_modules/selectize/dist/css/selectize.css`]);
 
 LazyLoad.js([`${vTex.baseURL}assets/js/vendors.js`], () => {
 
@@ -10,5 +10,6 @@ LazyLoad.js([`${vTex.baseURL}assets/js/vendors.js`], () => {
   global.jQuery = require('jquery');
   global.$ = jQuery;
 
-  LazyLoad.js([], () => require('./router'));
+  LazyLoad.js([`${vTex.baseURL}node_modules/selectize/dist/js/standalone/selectize.js`],
+    () => require('./router'));
 });

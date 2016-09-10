@@ -31,10 +31,26 @@ const githubUsersActions = Flux.createActions(
   }
 );
 
+const vTexActions = Flux.createActions(
+  {
+    addItem: (params) => ({
+        data: params,
+        actionType: "CHARTADDITEM"
+    }),
+
+    removeItem: (params) => ({
+      data: params,
+      actionType: "CHARTREMOVEITEM"
+    })
+  }
+);
+
 
 // SET STORES
 const githubOrganizationsStore = Flux.createStore(
   {
+    members: [],
+
     setMembers: function(data) {
       this.members = data;
     },
@@ -83,9 +99,47 @@ const githubUsersStore = Flux.createStore(
   }
 );
 
+const cart = {};
+const vTexStore = Flux.createStore(
+  {
+    addItemCart: function(data) {
+      cart[data.user.login] = data;
+      this.cart = cart;
+    },
+
+    removeItemCart: function(data) {
+      delete this.cart[data];
+    },
+
+    getCart: function() {
+      return this.cart;
+    }
+  },
+
+  function(payload){
+    switch(payload.actionType) {
+      case 'CHARTADDITEM':
+        vTexStore.addItemCart(payload.data);
+        vTexStore.emit('cartUpdated');
+        break;
+
+      case 'CHARTREMOVEITEM':
+        vTexStore.removeItemCart(payload.data);
+        vTexStore.emit('cartUpdated');
+      default:
+        return false;
+    }
+
+    return true;
+  }
+);
+
 // HELPER
 const aliases = {
   actions: {
+    vtex:{
+      cart: vTexActions
+    },
     github: {
       organizations: githubOrganizationsActions,
       users: githubUsersActions
@@ -93,6 +147,9 @@ const aliases = {
   },
 
   store: {
+    vtex: {
+      cart: vTexStore
+    },
     github:{
       organizations: githubOrganizationsStore,
       users: githubUsersStore
