@@ -33,9 +33,9 @@
 }
 .selectize-dropdown-content div .avatar {
   display: inline-block;
-  height: 50px;
+  height: 30px;
   margin: 0 10px 0 0;
-  width: 50px;
+  width: 30px;
 }
 .selectize-dropdown-content div .avatar img {
   border-radius: 3px;

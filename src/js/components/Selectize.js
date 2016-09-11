@@ -16,8 +16,6 @@ export default class Selectize extends React.Component {
 
   _setup(props) {
     const {items, onChange} = props;
-    console.log(props);
-    console.log(this._selectize);
 
     if(!this._selectize){
       this._selectize = $(findDOMNode(this)).selectize({
@@ -45,7 +43,7 @@ export default class Selectize extends React.Component {
             }
           });
     }else{
-      this._selectize.setValue(items, true);
+      this._selectize[0].selectize.addOption(items);
     }
   }
 
@@ -55,12 +53,14 @@ export default class Selectize extends React.Component {
 
   render() {
 
-    const {placeholder, className} = this.props;
+    const {placeholder, className, children} = this.props;
 
     return (
       <select id="select-to"
               className={className}
-              placeholder={placeholder}></select>
+              placeholder={placeholder}>
+        {children}
+      </select>
     );
   }
 }

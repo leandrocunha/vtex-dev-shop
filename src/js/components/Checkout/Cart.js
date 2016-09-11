@@ -114,7 +114,7 @@ export default class Cart extends React.Component {
                   </tr>
                   <tr className="total">
                     <td><strong>Total</strong></td>
-                    <td>{total ? Numeral(total).format('$ 0,0.00') : Numeral(subtotal).format('$ 0,0.00')}</td>
+                    <td><strong>{total ? Numeral(total).format('$ 0,0.00') : Numeral(subtotal).format('$ 0,0.00')}</strong></td>
                   </tr>
                 </tbody>
               </table>
