@@ -18,7 +18,6 @@ var vendors = [
     'react',
     'react-dom',
     'react-page',
-    'react-tap-event-plugin',
     'jquery'
   ];
 

@@ -4,9 +4,12 @@ import Page from 'react-page';
 
 import Checkout from './components/Checkout';
 import Main from './components/Main';
+import Order from './components/Order';
 
 var render = RootComponent => ReactDOM.render(<RootComponent />,
   document.getElementById('app'));
+
+Page.base(vTex.baseURL || '/');
 
 Page.set(render)
  .with(Main)
@@ -14,5 +17,10 @@ Page.set(render)
     'app',
     '/',
     Checkout
+  )
+  .on(
+    'order',
+    '/order',
+    Order
   )
   .run();
